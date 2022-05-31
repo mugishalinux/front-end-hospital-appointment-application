@@ -153,7 +153,7 @@ const disablePastDate = () => {
 
      
      
-        axios.get(`http://localhost:8080/api/v1/apt/doc/${obj.id}/date/${obj.date}`)
+        axios.get(`https://hospital-appointment-com.herokuapp.com/api/v1/apt/doc/${obj.id}/date/${obj.date}`)
         .then(res=>{
           var data=res.data;
           console.log(data);
