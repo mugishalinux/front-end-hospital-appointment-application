@@ -11,6 +11,11 @@ import Paper from '@mui/material/Paper';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 
 const Appoint = (props) => {
+
+    
+  const [doctorId , setDoctorId] = useState(localStorage.getItem('doctorId'))
+
+  const [hour , setHour] = useState(localStorage.getItem('hour'))
   
 
     const [availableAppointment , setAvailableAppointment] = useState([
@@ -27,24 +32,8 @@ const Appoint = (props) => {
  
   return (
     <>
-     <div className="">
-     <table>
-  <tr>
-    <th>date</th>
-    {/* <th>Lastname</th> */}
-  </tr>
   
-  <tr>
-      {
-          availableAppointment.map(app => {
-            <td>{app.hour
-            }</td>
-          })
-      }
-  </tr>
-</table>
-         </div>
-         <h1>hey {props.doctorNameFet} </h1>
+         <h1>the appointment hour is {props.location.state} </h1>
     </>
   
   );

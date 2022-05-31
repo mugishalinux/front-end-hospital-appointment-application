@@ -20,7 +20,7 @@ export const doctorColumns = [
         renderCell: (params) => {
             return (
               <div className="cellWithImg">
-                {params.row.departmentName}
+                {params.row.department.name}
               </div>
             );
           },
@@ -84,7 +84,7 @@ export const doctorColumns = [
             return (
               <div className="cellWithImg">
                
-                {params.row.startingHour}
+                {params.row.startHour}
               </div>
             );
           },
@@ -97,7 +97,7 @@ export const doctorColumns = [
             return (
               <div className="cellWithImg">
                
-                {params.row.endingHour}
+                {params.row.endHour}
               </div>
             );
           },

@@ -3,7 +3,6 @@ import appointment from "./appointment.jpg";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import "./index.css";
-import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from "notistack";
 import {
   Box,
@@ -30,11 +29,13 @@ import {
 
 import Format from "date-fns/format";
 import {Close,Today,DateRange} from '@material-ui/icons';
+
+
+
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -72,18 +73,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Index(props){
-
-  const navigate = useNavigate()
-
-  
-
+function Premier(props){
   const classes = useStyles();
-  
-  useEffect(()=>{
-   
-    get_doctors();
-  },[])
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+
 
   // get list of doctors 
 
@@ -107,7 +101,19 @@ function Index(props){
         var e = err.message;
         if (err.response) {
           e = err.response.data.message;
-       
+          enqueueSnackbar(e, {
+            variant: "error",
+            action: (k) => (
+              <IconButton
+                onClick={() => {
+                  closeSnackbar(k);
+                }}
+                size="small"
+              >
+                <Close fontSize="small" />
+              </IconButton>
+            ),
+          });
         }
       });
   }
@@ -140,7 +146,19 @@ const disablePastDate = () => {
   const [appointments,setAppointments]=useState([]);
   const get_appointment=()=>{
     if(doctorId.value==0){
-   
+      enqueueSnackbar("Please select doctor", {
+        variant: "error",
+        action: (k) => (
+          <IconButton
+            onClick={() => {
+              closeSnackbar(k);
+            }}
+            size="small"
+          >
+            <Close fontSize="small" />
+          </IconButton>
+        ),
+      });
       return
     }else{
       setAppointmentLoad(true);
@@ -166,18 +184,31 @@ const disablePastDate = () => {
         var e = err.message;
         if (err.response) {
           e = err.response.data.message;
-
+          enqueueSnackbar(e, {
+            variant: "error",
+            action: (k) => (
+              <IconButton
+                onClick={() => {
+                  closeSnackbar(k);
+                }}
+                size="small"
+              >
+                <Close fontSize="small" />
+              </IconButton>
+            ),
+          });
         }
       })
     }
   }
 
   // request doctor appointment
+
   const [requestDialog,setRequestDialog]=useState(false);
   const [firstName,setFirstName]=useState({value:"",error:""});
   const [lastName,setLastName]=useState({value:"",error:""});
   const [email,setEmail]=useState({value:"",error:""});
-  const [sickness, setSickness]=useState({value:"",error:""});
+  const [phone,setPhone]=useState({value:"",error:""});
   const [requestLoad,setRequestLoad]=useState(false);
   const [appointmentHour,setAppointmentHour]=useState(0);
   const request_appointment=()=>{
@@ -187,14 +218,14 @@ const disablePastDate = () => {
       setLastName({value:"",error:"Please enter your last name"});
     }else if(email.value==""){
       setEmail({value:"",error:"Please enter your email"});
-    }else if(sickness.value==""){
-      setSickness({value:"",error:"Please briefly explain your sickness"});
+    }else if(phone.value==""){
+      setPhone({value:"",error:"Please enter valid phone number"});
     }else{
       setRequestLoad(true);
       var requestBody={
         patientName:firstName.value+" "+lastName.value,
         patientEmail:email.value,
-        patientSicknessDetail:sickness.value,
+        patientSicknessDetail:phone.value,
         appointmentHour:appointmentHour,
         appointmentDate:appointmentDate.value,
       };
@@ -202,24 +233,30 @@ const disablePastDate = () => {
       axios.post(`http://localhost:8080/api/v1/apt/${doctorId}`, {
         patientName:firstName.value+" "+lastName.value,
         patientEmail:email.value,
-        patientSicknessDetail:sickness.value,
+        patientSicknessDetail:phone.value,
         appointmentHour:parseInt(appointmentHour),
         appointmentDate:appointmentDate.value,
       })
       
       .then((res)=>{
         var message="appointment successful booked";
-        alert(message)
+        enqueueSnackbar(message, { 
+          variant: 'success',
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'right',
+        },
+      });
       setTimeout(() => {
         window.location.reload(true);
-      },1000);
+      },2000);
       setRequestLoad(false);
       setRequestDialog(false);
 
       setFirstName({value:"",error:""});
       setLastName({value:"",error:""});
       setEmail({value:"",error:""});
-      setSickness({value:"",error:""});
+      setPhone({value:"",error:""});
 
       })
       .catch((err)=>{
@@ -227,18 +264,30 @@ const disablePastDate = () => {
         var e = err.message;
         if (err.response) {
           e = err.response.data;
-  
+          enqueueSnackbar(e, {
+            variant: "error",
+            action: (k) => (
+              <IconButton
+                onClick={() => {
+                  closeSnackbar(k);
+                }}
+                size="small"
+              >
+                <Close fontSize="small" />
+              </IconButton>
+            ),
+          });
         }
       })
     }
   }
-const login = () =>{
-navigate('/home');
-}
+
+  const login = () => {
+    // navigate('/login')
+  }
 
   return(
 <div>
-
 <section class="home-banner">
       <div class="home-banner-child" >
         <div class="overlay"></div>
@@ -248,7 +297,7 @@ navigate('/home');
               <h1 class="mb-3" >Our friendly, qualified staff put their patients at the heart of everything they do.</h1>
             </div>
             <div className="login-admin">
-              <button style={{width:"150px;", padding:"10px;"}} onClick={login}>Browse admin</button>
+              <button style={{width:"100px;", padding:"10px;"}} onClick={login}>Sign as admin</button>
             </div>
           </div>
         </div>
@@ -443,17 +492,17 @@ navigate('/home');
               <Box display="flex" style={{marginTop:6}} alignItems='center' justifyContent='center'>
               <TextField size='small' 
               variant='outlined' 
-                error={sickness.error!==""}
-                helperText={sickness.error}
-                value={sickness.value}
+                error={phone.error!==""}
+                helperText={phone.error}
+                value={phone.value}
                 onChange={(e)=>{
                   if(e.target.value===""){
-                    setSickness({value:"",error:"Enter firstname"});
+                    setPhone({value:"",error:"Enter firstname"});
                   }else{
-                    setSickness({value:e.target.value,error:""});
+                    setPhone({value:e.target.value,error:""});
                   }
                 }}
-                label="Briefly explain your sickness"
+                label="Phone Number"
                 color='primary' 
                 fullWidth/>
               </Box>
@@ -504,4 +553,4 @@ navigate('/home');
 
 }
 
-export default Index;
+export default Premier;

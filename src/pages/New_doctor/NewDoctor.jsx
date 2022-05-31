@@ -8,10 +8,34 @@ import TextField from '@material-ui/core/TextField';
 import { FortTwoTone } from "@mui/icons-material";
 import MenuItem from '@mui/material/MenuItem';
 import { Button } from "@mui/material";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+
+
+
+
 
 const NewDoctor = () => {
 
-    const [doctor , setDoctor] = useState({
+const navigate = useNavigate()
+
+const [departments , setDepartments] = useState([]);
+
+const [isActive, setIsActive] = useState(false);
+
+const [message, setMessage] = useState();
+
+useEffect(()=>{
+
+  axios.get("http://localhost:8080/api/v1/department" ).then((response) => { 
+  setDepartments(response.data)
+  console.log(response.data);
+});
+}, [])
+
+
+const [doctor , setDoctor] = useState({
         lastName:"",
         firstName:"",
         departmentName:"",
@@ -32,13 +56,51 @@ const NewDoctor = () => {
           console.log(doctor);
     }
 
-    const department = [
-        {id:1,depName:"neuron"},
-        {id:2,depName:"dental"},
-        {id:3,depName:"clinical"},
-    ]
-    
-    const [dep , setDep] = useState(department);
+    const [dep , setDep] = useState([]);
+
+    // useEffect(()=>{      
+    //     axios.post(`http://localhost:8080/api/v1/apt/${doctorId}`, { })
+    //     .then(()=> {
+
+    //     })
+    //   setDep(response.data);
+    //   console.log(response.data);
+
+    // }, [])
+
+
+
+  const openSnackBar = (msg = 'Something went wrong...') => {
+      setMessage(msg)
+      setIsActive(true);
+  }
+
+    const createDoctor = (e) =>{
+
+      e.preventDefault();
+
+
+      axios.post(`https://hospital-appointment-com.herokuapp.com/api/v1/doctor/register/dept/${doctor.departmentName}`, {
+        firstName:doctor.firstName,
+        lastName:doctor.lastName,
+        gender:doctor.gender,
+        age:doctor.age,
+        phoneNumber:doctor.phoneNumber,
+        email:doctor.email,
+        startHour:doctor.startingHour,
+        endHour:doctor.endingHour,
+        profilePic:""
+      })
+      .then(res=>{
+       var data=res.data;
+       console.log(data);
+       alert("doctor have been successful created");
+       setTimeout(()=>{
+        navigate('/doctor')
+       }, 1000)
+      })
+      .then(res => console.log(res))
+    }
 
   return (
     <div className="new">
@@ -48,8 +110,8 @@ const NewDoctor = () => {
         <div className="top">
           <h1>Add New Doctor</h1>
         </div>
-        
-        <div className="forms">
+  
+        <form className="forms" onSubmit={createDoctor} >
       
      <div className="section-1">
      <div>
@@ -78,9 +140,9 @@ const NewDoctor = () => {
           className="input"
           style={{width:"100%", marginTop:"10px", marginButton:"5px"}}
         >
-          {dep.map((option) => (
+          {departments.map((option) => (
             <MenuItem key={option.value} value={option.id}>
-              {option.depName}
+              {option.name}
             </MenuItem>
           ))}
         </TextField>
@@ -97,14 +159,15 @@ const NewDoctor = () => {
       <TextField id="outlined-basic" value={doctor.endingHour} onChange={handleChanges} name="endingHour" type="number" className="input" required label="Ending Hour" variant="outlined" />
       </div>
       <div className="submit" style={{marginTop:"50px;" }}>
-            <button id="send-btn" onClick={()=> alert("hello it works")} type="submit">
+            <button id="send-btn" typp="submit" type="submit">
                 Register
             </button>
             </div>
          </div>
+         </form>
         </div>
       </div>
-    </div>
+  
   );
 };
 

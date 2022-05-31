@@ -54,10 +54,12 @@ const Sidebar = () => {
               <span>Doctors</span>
             </li>
           </Link>
+          <Link to="/" style={{ textDecoration: "none" }}>
           <li>
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>
+          </Link>
         </ul>
       </div>
       <div className="bottom">

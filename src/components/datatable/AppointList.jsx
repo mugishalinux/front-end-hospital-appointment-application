@@ -1,23 +1,29 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, depColumns , userRows } from "../../datatablesource";
+import { userColumns, appointColumns, depColumns , userRows } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useState , useEffect } from "react";
 import axios from 'axios';
-import {Loading} from '../../pages/Loading/Loading';
 
-const DepartmentList = () => {
+
+const AppointList = () => {
 
   
 
-  const [departments , setDepartments] = useState([]);
+  const [appointment , setAppointment] = useState([
+//       {
+//       id:1,name:"mugisha"
+//   },
+//   {
+//     id:2,name:"pacifique"
+// }
+]);
 
-  const [loading , setLoading] = useState(false);
 
   useEffect(()=>{
 
-    axios.get("https://hospital-appointment-com.herokuapp.com/api/v1/department" ).then((response) => { 
-    setDepartments(response.data)
+    axios.get("http://localhost:8080/api/v1/apt/all" ).then((response) => { 
+    setAppointment(response.data)
     console.log(response.data);
 });
   }, [])
@@ -100,15 +106,12 @@ const DepartmentList = () => {
 
     <div className="datatable">
      <div className="datatableTitle">
-        Add New Department
-        <Link to="/departments/new" className="link">
-          Add New
-        </Link>
+        List Of Appointments Requested
       </div>
       <DataGrid
         className="datagrid"
-        rows={departments}
-        columns={depColumns.concat(actionColumns)}
+        rows={appointment}
+        columns={appointColumns}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection
@@ -119,4 +122,4 @@ const DepartmentList = () => {
   );
 };
 
-export default DepartmentList;
+export default AppointList;

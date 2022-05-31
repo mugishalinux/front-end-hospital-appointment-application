@@ -3,6 +3,7 @@ import "./login.css";
 import logo from "./doctor-icon.jpg"
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import {AppBar,Toolbar,Typography,Button,IconButton,Container,Box,TextField,CircularProgress,Paper} from "@material-ui/core"; 
 
 const Login = () => {
   const navigate = useNavigate()
@@ -22,10 +23,15 @@ if(success == true){
   localStorage.setItem('auth', key);
 }
 
+console.log(key);
+
 
 const [email , setEmails] = useState("");
 
 const [password , setPassWords] = useState("");
+
+const [loading,setLoading]=useState(false);
+
 
 const [data , setData] = useState({
   email:"",
@@ -46,29 +52,19 @@ const handleIn = (e) =>{
 }
 
 
-
   const log = (e) =>{
   
     e.preventDefault();
-
-    // const map1 = new Map(Object.entries(data));
-
-    // const map2 = new Map(Object.fromEntries(map2));
-
-    // console.log(map1)
-
-    // console.log(map2 + " json")
-
-      console.log(data);
- 
-    axios
-      .post("http://localhost:8080/api/auth/user/login", data)
-      .then(res => console.log(res.data))
-      // .then(res => localStorage.setItem('auth', res.data))
-      .then(res=> setKey(res.data))
-      // .then(res =>alert("account have been created successful"))
-      // .then(res => navigate('/login'))
-      .catch(err => console.log(err));
+    
+      axios.post("http://localhost:8080/api/auth/user/login", data)
+      .then(res=>{
+       var data=res.data.data;
+        localStorage.setItem("keys", JSON.stringify(res.data.token));
+        // window.open("/admin","_self");
+        navigate('/home')
+        setLoading(false);
+      })
+      .then(res => console.log(res))
 
   }
 

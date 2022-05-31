@@ -5,6 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,21 +21,35 @@ const useStyles = makeStyles((theme) => ({
 const New = ({ inputs, title }) => {
   
   const classes = useStyles();
-  const [depName, setDepName] = useState({
-    depName:""
-  });
+
+  const navigate = useNavigate();
+
+  const [depName, setDepName] = useState("");
 
 
   const handleChange = (event) => {
-    const name = event.target.name;
     const value = event.target.value;
-    setDepName({ ...depName, [name]: value });
+    setDepName(value);
   };
 
+console.log(depName)
 
-  const output = () => {
-   console.log(depName);
+  const createDepartment = (e) => {
+
+    e.preventDefault();
+
+    axios.post("https://hospital-appointment-com.herokuapp.com/api/v1/department/register", {name:depName})
+      .then(res=>{
+       var data=res.data;
+       console.log(data)
+       alert("new department was successfull added")
+       setTimeout(()=>{
+        navigate('/departments')
+       },1000)    
+      })
+      .then(res => console.log(res))
   }
+
   return (
     <div className="new">
       <Sidebar />
@@ -48,7 +64,7 @@ const New = ({ inputs, title }) => {
 
           </div>
           <div className="right" >
-            <form className={classes.root} noValidate autoComplete="off">
+            <form onSubmit={createDepartment} className={classes.root} noValidate autoComplete="off">
             <TextField id="outlined-basic"
              label="department name" 
              variant="outlined" 
@@ -57,7 +73,7 @@ const New = ({ inputs, title }) => {
              onChange={handleChange}
              />
              
-              <button onClick={output}>Add</button>
+              <button type="submit">Add</button>
             </form>
           </div>
         </div>

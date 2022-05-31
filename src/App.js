@@ -4,6 +4,7 @@ import Doctor from "./pages/Doctor/ListOfDoctors";
 import  Landing from "./pages/Landing/Landing";
 import  Register from "./pages/Register/Register";
 import  Appoint from "./pages/HomeIndex/Appoint";
+import AppointmentList from "./pages/Appointment/AppointmentList";
 import Login from "./pages/login/Login";
 import NewDoctor from "./pages/New_doctor/NewDoctor";
 import List from "./pages/List_Appointment/List";
@@ -28,6 +29,7 @@ function App() {
             <Route path="home"  element={<Home />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="appointment" element={<AppointmentList/>} />
             <Route path="appoint" element={<Appoint/>} />
             <Route path="departments">
               <Route index element={<List />} />

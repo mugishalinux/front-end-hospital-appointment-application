@@ -8,20 +8,13 @@ import {Loading} from '../../pages/Loading/Loading';
 
 const DoctortList = () => {
 
-  
-
-  const [doctor , setDoctor] = useState([
-    {id: 1,firstName:"Mugisha",lastName:"Pacifique",departmentName:"Dental",gender:"male",age:25,email:"mugishapa@gmail.com",phoneNumber:"0783381277",startingHour:8,endingHour:9,},
-    {id: 2,firstName:"Manzi",lastName:"Patrick",departmentName:"Surgery",gender:"male",age:25,email:"mugishapa@gmail.com",phoneNumber:"0783381277",startingHour:8,endingHour:9,},
-    {id: 3,firstName:"Gilbert",lastName:"Tuyishime",departmentName:"Neuron",gender:"male",age:23,email:"mugishapa@gmail.com",phoneNumber:"0783381277",startingHour:8,endingHour:9,},
-  ]);
 
   const [loading , setLoading] = useState(false);
 
   const [user , setUser] = useState([]);
 
-
   useEffect(()=>{
+    http://localhost:8080/api/v1/department
     // axios.get('https://hospital-5d55.restdb.io/rest/department').then(res =>{
     //   setDepartments(deps);
     //   setLoading(true);
@@ -30,14 +23,18 @@ const DoctortList = () => {
     // })
     // setDepartments(deps);
     // console.log(deps);
-    axios.get("https://jsonplaceholder.typicode.com/users").then((response) => {
+    // axios.get("https://jsonplaceholder.typicode.com/users").then((response) => {
+
+  
+    axios.get("https://hospital-appointment-com.herokuapp.com/api/v1/doctor" ).then((response) => { 
+       
     setUser(response.data);
     console.log(response.data);
     setLoading(true);
 });
-  })
+  }, [])
 
-//   const [data, setData] = useState(userRows);
+
 
 //   const handleDelete = (id) => {
 //     setData(data.filter((item) => item.id !== id));

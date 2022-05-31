@@ -125,7 +125,16 @@ export const userRows = [
 
 
 export const depColumns = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "id", headerName: "ID", width: 70,
+  renderCell: (params) => {
+    return (
+      <div className="cellWithImg">
+       
+        {params.row.id}
+      </div>
+    );
+  },
+},
   {
     field: "Departmet Name",
     headerName: "Departmet Name",
@@ -134,10 +143,92 @@ export const depColumns = [
       return (
         <div className="cellWithImg">
          
-          {params.row.departmentName}
+          {params.row.name}
         </div>
       );
     },
   },
 
 ];
+
+export const appointColumns = [
+  { field: "id", headerName: "ID", width: 70 },
+  {
+    field: "Departmet Name",
+    headerName: "Departmet Name",
+    width:160,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+         
+          {params.row.patientName}
+        </div>
+      );
+    },
+  },
+  {
+    field: "Patient Email",
+    headerName: "Patient Email",
+    width:200,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+         
+          {params.row.patientEmail}
+        </div>
+      );
+    },
+  },
+  {
+    field: "Sickness Overview",
+    headerName: "Sickness Overview",
+    width:200,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+         
+          {params.row.patientSicknessDetail}
+        </div>
+      );
+    },
+  },
+  {
+    field: "Appointment Date & Hour",
+    headerName: "Appointment Date & Hour",
+    width:200,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+         
+          {params.row.appointmentDate + " | " + params.row.appointmentHour + ":00"}
+        </div>
+      );
+    },
+  },
+  {
+    field: "Status",
+    headerName: "Status",
+    width:100,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+         <button onClick={() => alert(params.row.appointmentStatus  + " plus  " + params.row.id)}>{params.row.appointmentStatus}</button>
+        </div>
+      );
+    },
+  },
+  {
+    field: "Doctor Choosen",
+    headerName: "Doctor Choosen",
+    width:200,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+         
+          {params.row.doctor.firstName + " " + params.row.doctor.lastName + " " + "["+params.row.doctor.department.name+"]"}
+        </div>
+      );
+    },
+  },
+];
+
