@@ -97,7 +97,7 @@ function Index(props){
   const [doctors,setDoctors]=useState([]);
   const get_doctors=()=>{
 
-    axios.get("http://localhost:8080/api/v1/doctor" )
+    axios.get("https://hospital-appointment-com.herokuapp.com/api/v1/doctor")
     
     .then(res=>{
       console.log(res.data);
