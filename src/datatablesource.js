@@ -1,3 +1,6 @@
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
 export const userColumns = [
   { field: "id", headerName: "ID", width: 70 },
   {
@@ -125,7 +128,7 @@ export const userRows = [
 
 
 export const depColumns = [
-  { field: "id", headerName: "ID", width: 70,
+  { field: "id", headerName: "ID", width:40,
   renderCell: (params) => {
     return (
       <div className="cellWithImg">
@@ -152,11 +155,13 @@ export const depColumns = [
 ];
 
 export const appointColumns = [
-  { field: "id", headerName: "ID", width: 70 },
+
+  
+  { field: "id", headerName: "ID", width: 40 },
   {
     field: "Departmet Name",
     headerName: "Departmet Name",
-    width:160,
+    width:140,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
@@ -169,7 +174,7 @@ export const appointColumns = [
   {
     field: "Patient Email",
     headerName: "Patient Email",
-    width:200,
+    width:190,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
@@ -182,7 +187,7 @@ export const appointColumns = [
   {
     field: "Sickness Overview",
     headerName: "Sickness Overview",
-    width:200,
+    width:170,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
@@ -195,7 +200,7 @@ export const appointColumns = [
   {
     field: "Appointment Date & Hour",
     headerName: "Appointment Date & Hour",
-    width:200,
+    width:170,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
@@ -206,21 +211,24 @@ export const appointColumns = [
     },
   },
   {
-    field: "Status",
-    headerName: "Status",
+    field: "App Status",
+    headerName: "App Status",
     width:100,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
-         <button onClick={() => alert(params.row.appointmentStatus  + " plus  " + params.row.id)}>{params.row.appointmentStatus}</button>
+         
+          {params.row.appointmentStatus}
         </div>
       );
     },
   },
+
+  
   {
     field: "Doctor Choosen",
     headerName: "Doctor Choosen",
-    width:200,
+    width:180,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
