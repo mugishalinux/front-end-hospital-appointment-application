@@ -281,11 +281,12 @@ navigate('/home');
 	                <div class="form-group">
 			              <div class="select-wrap">
                       <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-         
+                    <label><small>select doctor</small></label>
                       <select  labelId="doctor"
                       className="form-control"
           id="doctor"
           value={doctorId.value}
+          required
           onChange={(e)=>{
             if(e.target.value!=0){
               setDoctorId({value:e.target.value,error:""});
@@ -304,8 +305,10 @@ navigate('/home');
                 <div class="col-sm-4">
 	                <div class="form-group">
 	                	<div class="icon"><span class="ion-ios-calendar"></span></div>
+                    <label><small>pick date</small></label>
 	                  <input  className="form-control"
     value={appointmentDate.value}
+    required
     id="date" 
     type="date"  
     size="small" 
@@ -322,13 +325,13 @@ navigate('/home');
  	                </div>    
 	              </div>
 	            </div>
-	            <div class="row">
+	            <div  class="row">
 	              <div class="col-sm-4">
 	                <div class="form-group">
                  
                   <button 
       className="btn btn-primary"
-      style={{backgroundColor:"#00e600", color:"white",width:"160px",borderRadius:"5px"}}
+      style={{backgroundColor:"#00e600", marginTop:"10px", color:"white",width:"160px",borderRadius:"5px"}}
       disableElevation
       variant="contained"
       disabled={appointmentLoad}
