@@ -363,7 +363,7 @@ navigate('/home');
         <ListItemAvatar>
         <img src={appointment} width={100}  />
         </ListItemAvatar>
-        <ListItemText primary={<Typography>{o.date} {o.time+":00"}</Typography>} />
+        <ListItemText primary={<Typography>{o.date} {o.time}</Typography>} />
          <ListItemSecondaryAction>
          
            <Button className={classes.button} startIcon={<DateRange/>} variant="outlined" onClick={()=>{
