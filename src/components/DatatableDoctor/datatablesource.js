@@ -3,7 +3,7 @@ export const doctorColumns = [
     {
       field: "Doctor Names",
       headerName: "Doctor Names",
-      width: 230,
+      width:170,
       renderCell: (params) => {
         return (
           <div className="cellWithImg">
@@ -16,7 +16,7 @@ export const doctorColumns = [
     {
         field: "Department",
         headerName: "Department",
-        width:150,
+        width:120,
         renderCell: (params) => {
             return (
               <div className="cellWithImg">

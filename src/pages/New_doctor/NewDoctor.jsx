@@ -27,7 +27,6 @@ const [isActive, setIsActive] = useState(false);
 const [message, setMessage] = useState();
 
 useEffect(()=>{
-
   axios.get("http://localhost:8080/api/v1/department" ).then((response) => { 
   setDepartments(response.data)
   console.log(response.data);
@@ -80,7 +79,7 @@ const [doctor , setDoctor] = useState({
       e.preventDefault();
 
 
-      axios.post(`https://hospital-appointment-com.herokuapp.com/api/v1/doctor/register/dept/${doctor.departmentName}`, {
+      axios.post(`http://localhost:8080/api/v1/doctor/register/dept/${doctor.departmentName}`, {
         firstName:doctor.firstName,
         lastName:doctor.lastName,
         gender:doctor.gender,

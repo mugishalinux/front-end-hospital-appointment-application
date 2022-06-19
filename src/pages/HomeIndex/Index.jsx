@@ -76,7 +76,15 @@ function Index(props){
 
   const navigate = useNavigate()
 
+  const disablePastDates = () => {
   
+    const today = new Date();
+    const dd = String(today.getDate() + 1).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    const yyyy = today.getFullYear();
+    return yyyy + "-" + mm + "-" + dd;
+ 
+};
 
   const classes = useStyles();
   
@@ -85,20 +93,20 @@ function Index(props){
     get_doctors();
   },[])
 
+  const disablePastDate = () => {
+    const today = new Date();
+    const dd = String(today.getDate() + 1).padStart(1, "0");
+    const mm = String(today.getMonth() + 1).padStart(1, "0"); 
+    const yyyy = today.getFullYear();
+    return yyyy + "-" + mm + "-" + dd;
+  };
+
   // get list of doctors 
-
-
-
-  
-
-
-
 
   const [doctors,setDoctors]=useState([]);
   const get_doctors=()=>{
 
-    axios.get("http://localhost:8080/api/v1/doctor" )
-    
+   axios.get("http://localhost:8080/api/v1/doctor" )
     .then(res=>{
       console.log(res.data);
       setDoctors(res.data);
@@ -125,14 +133,6 @@ function Index(props){
 
 // disable previous dates
 
-const disablePastDate = () => {
-  const today = new Date();
-  const dd = String(today.getDate() + 1).padStart(2, "0");
-  const mm = String(today.getMonth() + 1).padStart(2, "0"); 
-  const yyyy = today.getFullYear();
-  return yyyy + "-" + mm + "-" + dd;
-};
-
   const [appointmentDate, setAppointmentDate] = useState({value:Format(new Date(), ["yyyy-MM-dd",]),error:""});
   const [doctorId,setDoctorId]=useState({value:0,error:""});
 
@@ -154,6 +154,7 @@ const disablePastDate = () => {
      
      
         axios.get(`http://localhost:8080/api/v1/apt/doc/${obj.id}/date/${obj.date}`)
+
         .then(res=>{
           var data=res.data;
           console.log(data);
@@ -199,7 +200,7 @@ const disablePastDate = () => {
         appointmentDate:appointmentDate.value,
       };
       // axios.get((`http://localhost:8080/api/v1/apt/${doctorId}`), requestBody)
-      axios.post(`http://localhost:8080/api/v1/apt/${doctorId}`, {
+      axios.post(`https://localhost:8080.com/api/v1/apt/${doctorId}`, {
         patientName:firstName.value+" "+lastName.value,
         patientEmail:email.value,
         patientSicknessDetail:sickness.value,
@@ -238,6 +239,8 @@ navigate('/home');
 
   return(
 <div>
+
+
 
 <section class="home-banner">
       <div class="home-banner-child" >
@@ -278,11 +281,12 @@ navigate('/home');
 	                <div class="form-group">
 			              <div class="select-wrap">
                       <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-         
-                      <select  labelId="doctor"
-                      className="form-control"
+                    <label><small>select doctor</small></label>
+                      <select  style={{backgroundColor:"black"}} labelId="doctor"
+                      className ="form-control"
           id="doctor"
           value={doctorId.value}
+          required
           onChange={(e)=>{
             if(e.target.value!=0){
               setDoctorId({value:e.target.value,error:""});
@@ -291,7 +295,7 @@ navigate('/home');
             }
           }}>
             {doctors.map((option) => (
-              <option value={option.id}>{option.firstName + " " + option.lastName + "  " + option.department.name + " specialist"}</option>
+              <option  style={{backgroundColor:"black"}} value={option.id}>{option.firstName + " " + option.lastName + "  " + option.department.name + " specialist"}</option>
             ))}
           </select>
                     </div>
@@ -301,26 +305,33 @@ navigate('/home');
                 <div class="col-sm-4">
 	                <div class="form-group">
 	                	<div class="icon"><span class="ion-ios-calendar"></span></div>
+                    <label><small>pick date</small></label>
 	                  <input  className="form-control"
     value={appointmentDate.value}
-    id="odate" 
+    required
+    id="date" 
     type="date"  
     size="small" 
     variant="outlined" 
     onChange={(e)=>{
       setAppointmentDate({value:e.target.value,error:""});
       console.log(e.target.value);
-    }} min={disablePastDate()} class="form-control appointment_date" placeholder="Date"/>
-	                </div>    
+    }}
+     min={disablePastDates()} 
+     class="form-control appointment_date" 
+     placeholder="Date"/>
+
+
+ 	                </div>    
 	              </div>
 	            </div>
-	            <div class="row">
+	            <div  class="row">
 	              <div class="col-sm-4">
 	                <div class="form-group">
                  
                   <button 
       className="btn btn-primary"
-      style={{backgroundColor:"#00e600", color:"white",width:"160px",borderRadius:"5px"}}
+      style={{backgroundColor:"#00e600", marginTop:"10px", color:"white",width:"160px",borderRadius:"5px"}}
       disableElevation
       variant="contained"
       disabled={appointmentLoad}
@@ -430,7 +441,7 @@ navigate('/home');
                 value={lastName.value}
                 onChange={(e)=>{
                   if(e.target.value===""){
-                    setLastName({value:"",error:"Enter firstname"});
+                    setLastName({value:"",error:"Enter Lastname"});
                   }else{
                     setLastName({value:e.target.value,error:""});
                   }
@@ -448,7 +459,7 @@ navigate('/home');
                 value={sickness.value}
                 onChange={(e)=>{
                   if(e.target.value===""){
-                    setSickness({value:"",error:"Enter firstname"});
+                    setSickness({value:"",error:"Briefly explain your sickness "});
                   }else{
                     setSickness({value:e.target.value,error:""});
                   }
@@ -466,7 +477,7 @@ navigate('/home');
                 value={email.value}
                 onChange={(e)=>{
                   if(e.target.value===""){
-                    setEmail({value:"",error:"Enter firstname"});
+                    setEmail({value:"",error:"Enter email"});
                   }else{
                     setEmail({value:e.target.value,error:""});
                   }

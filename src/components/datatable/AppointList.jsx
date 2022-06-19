@@ -4,80 +4,94 @@ import { userColumns, appointColumns, depColumns , userRows } from "../../datata
 import { Link } from "react-router-dom";
 import { useState , useEffect } from "react";
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 
 const AppointList = () => {
 
-  
+  const navigate = useNavigate()
 
-  const [appointment , setAppointment] = useState([
-//       {
-//       id:1,name:"mugisha"
-//   },
-//   {
-//     id:2,name:"pacifique"
-// }
-]);
+  const [appointment , setAppointment] = useState([]);
 
+  const [appointmentPending , setAppointmentPending] = useState([])
 
   useEffect(()=>{
 
     axios.get("http://localhost:8080/api/v1/apt/all" ).then((response) => { 
     setAppointment(response.data)
-    console.log(response.data);
+    // console.log(response.data)
+    let datas = response.data.filter(app => app.appointmentStatus === "PENDING");
+
+    // console.log(" type of datas " +typeof datas) 
+
+    // console.log(" type of response.datas " + typeof response.data) 
+
+
+    setAppointmentPending(datas);
+
 });
   }, [])
 
+  // console.log("   appointments pending " + appointmentPending)
 
+  
+
+  
 
 
 
   const [data, setData] = useState(userRows);
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const approveRequest = (id) => {
+    axios.put(`http://localhost:8080/api/v1/apt/${id}/status/${1}`)
+    .then(res => {
+      alert("Appointment have been successfull approved");
+      axios.get("http://localhost:8080/api/v1/apt/all" ).then((response) => { 
+        setAppointment(response.data)
+       
+        let datas = response.data.filter(app => app.appointmentStatus === "PENDING");
+  
+        setAppointmentPending(datas);
+    
+    });
+    })
+  };
+  const rejectRequest = (id) => {
+    axios.put(`http://localhost:8080/api/v1/apt/${id}/status/${0}`)
+    .then(res => {
+      alert("Appointment have been successfull rejected");
+
+      axios.get("http://localhost:8080/api/v1/apt/all" ).then((response) => { 
+        setAppointment(response.data)
+        // console.log(response.data)
+        let datas = response.data.filter(app => app.appointmentStatus === "PENDING");
+    
+        setAppointmentPending(datas);
+    
+    });
+
+
+    })
   };
 
   const actionColumn = [
     {
       field: "action",
       headerName: "Action",
-      width: 200,
+      width:180,
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
-              {/* <div className="viewButton">View</div> */}
-            </Link>
             <div
               className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => approveRequest(params.row.id)}
             >
-              Delete
+              Approve
             </div>
-          </div>
-        );
-      },
-    },
-  ];
-
-
-  const actionColumns = [
-    {
-      field: "action",
-      headerName: "Action",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="cellAction">
-            {/* <Link to="/users/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link> */}
             <div
-              className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+              className="viewButton"
+              onClick={() => rejectRequest(params.row.id)}
             >
-              Delete
+              Reject
             </div>
           </div>
         );
@@ -110,8 +124,8 @@ const AppointList = () => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={appointment}
-        columns={appointColumns}
+        rows={appointmentPending}
+        columns={appointColumns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection
