@@ -16,7 +16,7 @@ const AppointList = () => {
 
   useEffect(()=>{
 
-    axios.get("http://localhost:8080/api/v1/apt/all" ).then((response) => { 
+    axios.get("https://hospital-appointment-com.herokuapp.com/api/v1/apt/all" ).then((response) => { 
     setAppointment(response.data)
     // console.log(response.data)
     let datas = response.data.filter(app => app.appointmentStatus === "PENDING");
@@ -42,10 +42,17 @@ const AppointList = () => {
   const [data, setData] = useState(userRows);
 
   const approveRequest = (id) => {
+<<<<<<< HEAD
     axios.put(`http://localhost:8080/api/v1/apt/${id}/status/${1}`)
     .then(res => {
       alert("Appointment have been successfull approved");
       axios.get("http://localhost:8080/api/v1/apt/all" ).then((response) => { 
+=======
+    axios.put(`https://hospital-appointment-com.herokuapp.com/api/v1/apt/${id}/status/${1}`)
+    .then(res => {
+      alert("Appointment have been successfull approved");
+      axios.get("https://hospital-appointment-com.herokuapp.com/api/v1/apt/all" ).then((response) => { 
+>>>>>>> e834af33faf4429b3155373eec246b7c85ce95d8
         setAppointment(response.data)
        
         let datas = response.data.filter(app => app.appointmentStatus === "PENDING");
@@ -56,11 +63,19 @@ const AppointList = () => {
     })
   };
   const rejectRequest = (id) => {
+<<<<<<< HEAD
     axios.put(`http://localhost:8080/api/v1/apt/${id}/status/${0}`)
     .then(res => {
       alert("Appointment have been successfull rejected");
 
       axios.get("http://localhost:8080/api/v1/apt/all" ).then((response) => { 
+=======
+    axios.put(`https://hospital-appointment-com.herokuapp.com/api/v1/apt/${id}/status/${0}`)
+    .then(res => {
+      alert("Appointment have been successfull rejected");
+
+      axios.get("https://hospital-appointment-com.herokuapp.com/api/v1/apt/all" ).then((response) => { 
+>>>>>>> e834af33faf4429b3155373eec246b7c85ce95d8
         setAppointment(response.data)
         // console.log(response.data)
         let datas = response.data.filter(app => app.appointmentStatus === "PENDING");

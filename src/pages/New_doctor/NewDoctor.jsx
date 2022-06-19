@@ -27,7 +27,12 @@ const [isActive, setIsActive] = useState(false);
 const [message, setMessage] = useState();
 
 useEffect(()=>{
+<<<<<<< HEAD
   axios.get("http://localhost:8080/api/v1/department" ).then((response) => { 
+=======
+
+  axios.get("https://hospital-appointment-com.herokuapp.com/api/v1/department" ).then((response) => {
+>>>>>>> e834af33faf4429b3155373eec246b7c85ce95d8
   setDepartments(response.data)
   console.log(response.data);
 });

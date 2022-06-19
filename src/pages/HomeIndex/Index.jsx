@@ -95,8 +95,13 @@ function Index(props){
 
   const disablePastDate = () => {
     const today = new Date();
+<<<<<<< HEAD
     const dd = String(today.getDate() + 1).padStart(1, "0");
     const mm = String(today.getMonth() + 1).padStart(1, "0"); 
+=======
+    const dd = String(today.getDate() + 1).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0"); 
+>>>>>>> e834af33faf4429b3155373eec246b7c85ce95d8
     const yyyy = today.getFullYear();
     return yyyy + "-" + mm + "-" + dd;
   };
@@ -106,7 +111,11 @@ function Index(props){
   const [doctors,setDoctors]=useState([]);
   const get_doctors=()=>{
 
+<<<<<<< HEAD
    axios.get("http://localhost:8080/api/v1/doctor" )
+=======
+   axios.get("https://hospital-appointment-com.herokuapp.com/api/v1/doctor" )
+>>>>>>> e834af33faf4429b3155373eec246b7c85ce95d8
     .then(res=>{
       console.log(res.data);
       setDoctors(res.data);
@@ -153,7 +162,11 @@ function Index(props){
 
      
      
+<<<<<<< HEAD
         axios.get(`http://localhost:8080/api/v1/apt/doc/${obj.id}/date/${obj.date}`)
+=======
+        axios.get(`https://hospital-appointment-com.herokuapp.com/api/v1/apt/doc/${obj.id}/date/${obj.date}`)
+>>>>>>> e834af33faf4429b3155373eec246b7c85ce95d8
 
         .then(res=>{
           var data=res.data;
@@ -200,7 +213,11 @@ function Index(props){
         appointmentDate:appointmentDate.value,
       };
       // axios.get((`http://localhost:8080/api/v1/apt/${doctorId}`), requestBody)
+<<<<<<< HEAD
       axios.post(`https://localhost:8080.com/api/v1/apt/${doctorId}`, {
+=======
+      axios.post(`https://hospital-appointment-com.herokuapp.com/api/v1/apt/${doctorId}`, {
+>>>>>>> e834af33faf4429b3155373eec246b7c85ce95d8
         patientName:firstName.value+" "+lastName.value,
         patientEmail:email.value,
         patientSicknessDetail:sickness.value,
@@ -282,8 +299,13 @@ navigate('/home');
 			              <div class="select-wrap">
                       <div class="icon"><span class="ion-ios-arrow-down"></span></div>
                     <label><small>select doctor</small></label>
+<<<<<<< HEAD
                       <select  style={{backgroundColor:"black"}} labelId="doctor"
                       className ="form-control"
+=======
+                      <select  labelId="doctor"
+                      className="form-control"
+>>>>>>> e834af33faf4429b3155373eec246b7c85ce95d8
           id="doctor"
           value={doctorId.value}
           required
@@ -363,7 +385,7 @@ navigate('/home');
         <ListItemAvatar>
         <img src={appointment} width={100}  />
         </ListItemAvatar>
-        <ListItemText primary={<Typography>{o.date} {o.time+":00"}</Typography>} />
+        <ListItemText primary={<Typography>{o.date} {o.time}</Typography>} />
          <ListItemSecondaryAction>
          
            <Button className={classes.button} startIcon={<DateRange/>} variant="outlined" onClick={()=>{

@@ -159,7 +159,7 @@ export const appointColumns = [
   
   { field: "id", headerName: "ID", width: 40 },
   {
-    field: "Departmet Name",
+    field: "Patient Names",
     headerName: "Departmet Name",
     width:140,
     renderCell: (params) => {
